@@ -1,6 +1,7 @@
 import "./styles.css";
 import { todoItem, checkListItem } from "./todo-item.js";
 import { project } from "./project.js";
+import { displayProject } from "./project-renderer.js";
 
 // instantiate list of projects
 const projects = [];
@@ -19,6 +20,15 @@ const rerenderProjects = () => {
   projects.forEach(project => {
     const projectLink = document.createElement("a");
     projectLink.textContent = project.title;
+
+    projectLink.addEventListener("click", () => { 
+      displayProject(project);
+
+
+    });
+
+
+
     sidebar.appendChild(projectLink);
   });
 };
