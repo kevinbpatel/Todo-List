@@ -21,4 +21,24 @@ body {
 
 #main-container { 
   flex: 7;
+  padding: 20px;
+}
+
+#project-title { 
+  margin: 20px 0;
+  font-size: 40px;
+  font-weight: bold;
+}
+
+#todo-container { 
+  display: flex;
+}
+
+.todo-card { 
+  display: flex;
+}
+
+.todo-header { 
+  display: flex;
+  justify-content: space-between;
 }

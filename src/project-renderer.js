@@ -9,15 +9,55 @@ const rerenderTodoItems = (project) => {
 
   project.items.forEach(item => {
     const todoItem = document.createElement("div");
-    
+    const todoHeader = document.createElement("div");
     const todoTitle = document.createElement("div");
-    const todoDescription = document.createElement("div");
+    
 
     todoTitle.textContent = item.title;
-    todoDescription.textContent = item.description;
 
-    todoItem.appendChild(todoTitle);
-    todoItem.appendChild(todoDescription);
+    todoItem.setAttribute("class", "todo-card");
+
+    todoHeader.appendChild(todoTitle);
+    todoHeader.setAttribute("class", "todo-header");
+    todoContainer.appendChild(todoHeader);
+
+    const todoDetails = document.createElement("div");
+    todoDetails.setAttribute("class", "todo-details")
+
+    const todoDescription = document.createElement("INPUT");
+    todoDescription.setAttribute("placeholder", "add description");
+    const todoDueDate = document.createElement("INPUT");
+    todoDueDate.setAttribute("placeholder", "add Date");
+    const priority = document.createElement("INPUT");
+    priority.setAttribute("placeholder", "set priority");
+
+    todoDescription.value = item.description;
+    todoDueDate.value = item.dueDate;
+    priority.value = item.priority;
+
+    todoDetails.appendChild(todoDescription);
+    todoDetails.appendChild(todoDueDate);
+    todoDetails.appendChild(priority);
+
+    todoDetails.style.display = "none";
+    
+    todoHeader.addEventListener("click", () => { 
+
+      if (todoDetails.style.display === "block") { 
+        todoDetails.style.display = "none";
+      } else if (todoDetails.style.display === "none") { 
+        todoDetails.style.display = "block";
+      }
+    });
+    
+    todoItem.appendChild(todoDetails);
+
+    // in expand: 
+
+      // add description, dueDate, priority 
+
+      // add delete button     
+
 
     todoContainer.appendChild(todoItem);
   });
@@ -33,6 +73,7 @@ export const displayProject = (project) => {
 
   const projectTitle = document.createElement("div");
   projectTitle.textContent = project.title;
+  projectTitle.setAttribute("id", "project-title");
 
   mainContainer.appendChild(projectTitle);
 
@@ -47,13 +88,15 @@ export const displayProject = (project) => {
 
   const addTodoInput = document.createElement("INPUT");
   addTodoInput.setAttribute("type", "text");
+  addTodoInput.setAttribute("placeholder", "add todo item");
 
   addTodoInput.addEventListener("keypress", function(event) {
-    if (event.key === "Enter") { 
+    if (event.key === "Enter" && addTodoInput.value !== "") { 
       event.preventDefault();
 
       project.addItem(todoItem(addTodoInput.value));
       rerenderTodoItems(project);
+      addTodoInput.value = "";
     }
   });
 
