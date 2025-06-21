@@ -11,7 +11,7 @@ projects.push(project("new project"));
 projects[0].addItem(todoItem("first item"));
 projects[0].addItem(todoItem("second item"));
 projects[0].addItem(todoItem("third item"));
-projects[0].items[0].description = "hello world description";
+projects[0].items[0].description = "default description in index.js";
 
 
 // display all projects
@@ -24,12 +24,8 @@ const rerenderProjects = () => {
 
     projectLink.addEventListener("click", () => { 
       displayProject(project);
-
-
     });
-
-
-
+    
     sidebar.appendChild(projectLink);
   });
 };
