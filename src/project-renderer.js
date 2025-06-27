@@ -32,11 +32,16 @@ const rerenderTodoItems = (project) => {
     todoDescription.addEventListener("input", () => {
       item.description = todoDescription.value;
     });
-    const todoDueDate = textBox(item.dueDate, "add Date");
+
+    // date element 
+    const todoDueDate = document.createElement("INPUT");
+    todoDueDate.setAttribute("type", "date");
+    todoDueDate.value = item.dueDate;
     todoDetails.appendChild(todoDueDate);
     todoDueDate.addEventListener("input", () => {
       item.dueDate = todoDueDate.value;
     });
+
     const priority = textBox(item.priority, "set priority");
     todoDetails.appendChild(priority);
     priority.addEventListener("input", () => {

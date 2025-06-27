@@ -12,6 +12,7 @@ projects[0].addItem(todoItem("first item"));
 projects[0].addItem(todoItem("second item"));
 projects[0].addItem(todoItem("third item"));
 projects[0].items[0].description = "default description in index.js";
+projects[0].items[0].dueDate = "2002-10-06";
 
 
 // display all projects
