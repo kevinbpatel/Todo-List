@@ -22,6 +22,7 @@ const rerenderProjects = () => {
   projects.forEach(project => {
     const projectLink = document.createElement("a");
     projectLink.textContent = project.title;
+    projectLink.setAttribute("class", "project-link");
 
     projectLink.addEventListener("click", () => { 
       displayProject(project);
@@ -33,8 +34,11 @@ const rerenderProjects = () => {
 
 // add project button
 const addProjectButton = document.createElement("button");
-addProjectButton.textContent = "+";
+addProjectButton.setAttribute("id", "add-project-button");
 sidebar.appendChild(addProjectButton);
+const addIcon = document.createElement("img");
+addIcon.setAttribute("src", "images/notepad_icon.png");
+addProjectButton.appendChild(addIcon);
 addProjectButton.addEventListener("click", () => { 
   projects.push(project("Untitled"));
   rerenderProjects();

@@ -10,19 +10,24 @@ const rerenderTodoItems = (project) => {
 
   project.items.forEach(item => {
     const todoItem = document.createElement("div");
-    const todoHeader = document.createElement("div");
+    todoItem.setAttribute("class", "todo-item");
 
+    // todo header container for todo elements
+    const todoHeader = document.createElement("div");
+    todoHeader.setAttribute("class", "todo-card");
+    
+    // todo title to be put in header
     const todoTitle = textBox(item.title, "Project Title");
     todoHeader.appendChild(todoTitle);
     todoTitle.addEventListener("input", () => {
       item.title = todoTitle.value;
     });
 
-    todoItem.setAttribute("class", "todo-card");
+    
 
     
     todoHeader.setAttribute("class", "todo-header");
-    todoContainer.appendChild(todoHeader);
+    todoItem.appendChild(todoHeader);
 
     const todoDetails = document.createElement("div");
     todoDetails.setAttribute("class", "todo-details");
