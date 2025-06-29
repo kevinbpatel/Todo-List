@@ -2,6 +2,7 @@ import "./styles.css";
 import { todoItem, checkListItem } from "./todo-item.js";
 import { project } from "./project.js";
 import { displayProject } from "./project-renderer.js";
+import addImage from "./images/add.svg"
 
 // instantiate list of projects
 const projects = [];
@@ -37,7 +38,8 @@ const addProjectButton = document.createElement("button");
 addProjectButton.setAttribute("id", "add-project-button");
 sidebar.appendChild(addProjectButton);
 const addIcon = document.createElement("img");
-addIcon.setAttribute("src", "images/notepad_icon.png");
+addIcon.src = addImage;
+addIcon.setAttribute("id", "add-icon")
 addProjectButton.appendChild(addIcon);
 addProjectButton.addEventListener("click", () => { 
   projects.push(project("Untitled"));

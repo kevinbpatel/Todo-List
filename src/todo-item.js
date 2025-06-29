@@ -20,7 +20,7 @@ export const todoItem = (title) => {
     title, 
     description: "",
     dueDate: "",
-    priority: "",
+    priority: "Medium",
   }
   return Object.assign(
     {},

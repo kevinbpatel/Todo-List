@@ -1,6 +1,7 @@
 import { editableText, textBox } from "./text-box.js";
 import { project } from "./project.js";
 import { todoItem } from "./todo-item";
+import noteImage from "./images/note.svg"
 
 
 const rerenderTodoItems = (project) => { 
@@ -14,7 +15,10 @@ const rerenderTodoItems = (project) => {
 
     // todo header container for todo elements
     const todoHeader = document.createElement("div");
-    todoHeader.setAttribute("class", "todo-card");
+    todoHeader.setAttribute("class", "todo-header");
+    const noteIcon = document.createElement("img");
+    noteIcon.src = noteImage;
+    todoHeader.appendChild(noteIcon);
     
     // todo title to be put in header
     const todoTitle = textBox(item.title, "Project Title");
@@ -128,9 +132,13 @@ export const displayProject = (project) => {
   // for each item in the project, render each of the items 
   rerenderTodoItems(project);
 
+  const addTodoContainer = document.createElement("div");
+  addTodoContainer.setAttribute("class", "add-todo-container")
   const addTodoInput = document.createElement("INPUT");
   addTodoInput.setAttribute("type", "text");
+  addTodoInput.setAttribute("class", "add-todo-input");
   addTodoInput.setAttribute("placeholder", "add todo item");
+  
 
   addTodoInput.addEventListener("keypress", function(event) {
     if (event.key === "Enter" && addTodoInput.value !== "") { 
@@ -142,7 +150,11 @@ export const displayProject = (project) => {
     }
   });
 
-  mainContainer.appendChild(addTodoInput);
+  const noteIcon = document.createElement("img");
+  noteIcon.src = noteImage;
+  addTodoContainer.appendChild(noteIcon);
+  addTodoContainer.appendChild(addTodoInput);
+  mainContainer.appendChild(addTodoContainer);
 
   // add new todo button
   
