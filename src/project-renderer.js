@@ -25,16 +25,27 @@ const rerenderTodoItems = (project) => {
     todoContainer.appendChild(todoHeader);
 
     const todoDetails = document.createElement("div");
-    todoDetails.setAttribute("class", "todo-details")
+    todoDetails.setAttribute("class", "todo-details");
 
+    // description element
+    const descriptionLabel = document.createElement("LABEL");
+    descriptionLabel.setAttribute("for", "description-text");
+    descriptionLabel.textContent = "Description:";
+    todoDetails.appendChild(descriptionLabel);
     const todoDescription = textBox(item.description, "add description");
+    todoDescription.setAttribute("id", "description-text");
     todoDetails.appendChild(todoDescription);
     todoDescription.addEventListener("input", () => {
       item.description = todoDescription.value;
     });
 
     // date element 
+    const dateLabel = document.createElement("LABEL");
+    dateLabel.setAttribute("for", "date-select");
+    dateLabel.textContent = "Date:";
+    todoDetails.appendChild(dateLabel);
     const todoDueDate = document.createElement("INPUT");
+    todoDueDate.setAttribute("id", "date-select");
     todoDueDate.setAttribute("type", "date");
     todoDueDate.value = item.dueDate;
     todoDetails.appendChild(todoDueDate);
@@ -42,7 +53,23 @@ const rerenderTodoItems = (project) => {
       item.dueDate = todoDueDate.value;
     });
 
-    const priority = textBox(item.priority, "set priority");
+    // priority element 
+    const priorityLabel = document.createElement("LABEL");
+    priorityLabel.setAttribute("for", "priority-select");
+    priorityLabel.textContent = "Priority:";
+    todoDetails.appendChild(priorityLabel);
+    const priority = document.createElement("SELECT");
+    priority.setAttribute("id", "priority-select");
+    const optionLow = document.createElement("OPTION");
+    optionLow.textContent = "Low";
+    const optionMedium = document.createElement("OPTION");
+    optionMedium.textContent = "Medium";
+    const optionHigh = document.createElement("OPTION");
+    optionHigh.textContent = "High";
+    priority.appendChild(optionLow);
+    priority.appendChild(optionMedium);
+    priority.appendChild(optionHigh);
+    priority.value = item.priority;
     todoDetails.appendChild(priority);
     priority.addEventListener("input", () => {
       item.priority = priority.value;
