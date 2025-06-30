@@ -23,6 +23,7 @@ const rerenderTodoItems = (project) => {
     if (item.checked !== undefined) { // add checkbox input element
       const todoCheckBox= document.createElement("input");
       todoCheckBox.type = "checkbox";
+      todoCheckBox.setAttribute("class", "check-box");
       todoHeader.append(todoCheckBox);
     } else { // otherwise add regular "-"
       const noteIcon = document.createElement("img");
@@ -32,6 +33,7 @@ const rerenderTodoItems = (project) => {
 
     // todo title to be put in header
     const todoTitle = textBox(item.title, "Project Title");
+    todoTitle.setAttribute("id", "todo-title");
     todoHeader.appendChild(todoTitle);
     todoTitle.addEventListener("input", () => {
       item.title = todoTitle.value;
@@ -44,6 +46,7 @@ const rerenderTodoItems = (project) => {
     todoHeader.setAttribute("class", "todo-header");
     todoItem.appendChild(todoHeader);
 
+    // todo details dropdown container
     const todoDetails = document.createElement("div");
     todoDetails.setAttribute("class", "todo-details");
 
@@ -99,10 +102,10 @@ const rerenderTodoItems = (project) => {
     
     todoHeader.addEventListener("click", () => { 
 
-      if (todoDetails.style.display === "block") { 
+      if (todoDetails.style.display === "flex") { 
         todoDetails.style.display = "none";
       } else if (todoDetails.style.display === "none") { 
-        todoDetails.style.display = "block";
+        todoDetails.style.display = "flex";
       }
     });
     
