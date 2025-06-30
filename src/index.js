@@ -3,6 +3,7 @@ import { todoItem, checkListItem } from "./todo-item.js";
 import { project } from "./project.js";
 import { displayProject } from "./project-renderer.js";
 import addImage from "./images/add.svg"
+import { storageAvailable } from "./local-storage-js";
 
 // instantiate list of projects
 const projects = [];
@@ -47,3 +48,9 @@ addProjectButton.addEventListener("click", () => {
 });
 
 rerenderProjects();
+
+// if (storageAvailable("localStorage")) {
+//   alert("working");
+// } else {
+//   alert("not working");
+// }

@@ -1,26 +1,32 @@
+import { storeTodoLocal } from "./local-storage-js";
+
 const noteFunctions = (state) => ({
-  get title() { return state.title; },
-  set title(newTitle) { state.title = newTitle; },
-  get description() { return state.description; },
-  set description(newDescription) { state.description = newDescription; }, 
-  get dueDate() { return state.dueDate; },
-  set dueDate(newDueDate) { state.dueDate = newDueDate; },
-  get priority() { return state.priority},
-  set priority(newPriority) { state.priority = newPriority; }, 
+  get title() { return state._title; },
+  set title(newTitle) { state._title = newTitle; },
+  get description() { return state._description; },
+  set description(newDescription) { 
+    state._description = newDescription; 
+    console.log("hello world");
+    storeTodoLocal(state._title, state);
+  }, 
+  get dueDate() { return state._dueDate; },
+  set dueDate(newDueDate) { state._dueDate = newDueDate; },
+  get priority() { return state._priority},
+  set priority(newPriority) { state._priority = newPriority; }, 
 })
 
 const checkBoxFunctions = (state) => ({
-  get checked() { return state.checked; },
-  checkItem: () => state.checked = true,
-  uncheckItem: () => state.checked = false
+  get checked() { return state._checked; },
+  checkItem: () => state._checked = true,
+  uncheckItem: () => state._checked = false
 })
 
-export const todoItem = (title) => { 
+export const todoItem = (_title) => { 
   let state = { 
-    title, 
-    description: "",
-    dueDate: "",
-    priority: "Medium",
+    _title, 
+    _description: "",
+    _dueDate: "",
+    _priority: "Medium",
   }
   return Object.assign(
     {},
@@ -29,13 +35,13 @@ export const todoItem = (title) => {
 }
 
 // create factory function with check list item 
-export const checkListItem = (title) => { 
+export const checkListItem = (_title) => { 
   let state = { 
-    title, 
-    description: "",
-    dueDate: "",
-    priority: "",
-    checked: false
+    _title, 
+    _description: "",
+    _dueDate: "",
+    _priority: "",
+    _checked: false
   }
   return Object.assign(
     {},
