@@ -1,6 +1,6 @@
 import { editableText, textBox } from "./text-box.js";
 import { project } from "./project.js";
-import { todoItem } from "./todo-item";
+import { todoItem, checkListItem } from "./todo-item";
 import noteImage from "./images/note.svg"
 
 
@@ -16,10 +16,20 @@ const rerenderTodoItems = (project) => {
     // todo header container for todo elements
     const todoHeader = document.createElement("div");
     todoHeader.setAttribute("class", "todo-header");
-    const noteIcon = document.createElement("img");
-    noteIcon.src = noteImage;
-    todoHeader.appendChild(noteIcon);
     
+    
+  
+    // if item is a checkBox
+    if (item.checked !== undefined) { // add checkbox input element
+      const todoCheckBox= document.createElement("input");
+      todoCheckBox.type = "checkbox";
+      todoHeader.append(todoCheckBox);
+    } else { // otherwise add regular "-"
+      const noteIcon = document.createElement("img");
+      noteIcon.src = noteImage;
+      todoHeader.appendChild(noteIcon);
+    }
+
     // todo title to be put in header
     const todoTitle = textBox(item.title, "Project Title");
     todoHeader.appendChild(todoTitle);
@@ -27,6 +37,7 @@ const rerenderTodoItems = (project) => {
       item.title = todoTitle.value;
     });
 
+    
     
 
     
@@ -144,7 +155,19 @@ export const displayProject = (project) => {
     if (event.key === "Enter" && addTodoInput.value !== "") { 
       event.preventDefault();
 
-      project.addItem(todoItem(addTodoInput.value));
+      // if person creates a checkbox 
+
+      let newTitle = "";
+      if (addTodoInput.value.startsWith("[]")) { 
+        newTitle = addTodoInput.value.split("[]")[1];
+
+        project.addItem(checkListItem(newTitle));
+
+      } else { 
+        project.addItem(todoItem(addTodoInput.value));
+      }
+
+      
       rerenderTodoItems(project);
       addTodoInput.value = "";
     }

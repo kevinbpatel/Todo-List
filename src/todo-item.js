@@ -39,7 +39,7 @@ export const checkListItem = (title) => {
   }
   return Object.assign(
     {},
-    todoFunctions(state),
+    noteFunctions(state),
     checkBoxFunctions(state)
   )
 }
