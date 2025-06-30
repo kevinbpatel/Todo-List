@@ -24,7 +24,18 @@ const rerenderTodoItems = (project) => {
       const todoCheckBox= document.createElement("input");
       todoCheckBox.type = "checkbox";
       todoCheckBox.setAttribute("class", "check-box");
+      todoCheckBox.checked = item.checked;
       todoHeader.append(todoCheckBox);
+
+      todoCheckBox.addEventListener("change", () => { 
+        if (todoCheckBox.checked) { 
+          item.checked = true;
+        } else { 
+          item.checked = false;
+        }
+
+      });
+
     } else { // otherwise add regular "-"
       const noteIcon = document.createElement("img");
       noteIcon.src = noteImage;
