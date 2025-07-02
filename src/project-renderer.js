@@ -19,8 +19,8 @@ const rerenderTodoItems = (project) => {
     const todoHeader = document.createElement("div");
     todoHeader.setAttribute("class", "todo-header");
     
-    // if item is a checkBox
-    if (item.checked !== undefined) { // add checkbox input element
+    // checkbox logic
+    if (item.checked !== undefined) {
       const todoCheckBox= document.createElement("input");
       todoCheckBox.type = "checkbox";
       todoCheckBox.setAttribute("class", "check-box");
@@ -51,7 +51,6 @@ const rerenderTodoItems = (project) => {
       item.title = todoTitle.value;
       item.storeNote(project.title);
     });
-
     todoHeader.setAttribute("class", "todo-header");
     todoItem.appendChild(todoHeader);
 
@@ -110,9 +109,21 @@ const rerenderTodoItems = (project) => {
       item.storeNote(project.title);
     });
 
-    todoDetails.style.display = "none";
+    // delete button
+    const deleteButton = document.createElement("button");
+    deleteButton.setAttribute("class", "todo-delete");
+    deleteButton.textContent = "Delete";
+    deleteButton.addEventListener("click", () => { 
+      project.removeItem(item);
+      rerenderTodoItems(project);
+    });
+
+    todoDetails.appendChild(deleteButton);
+
+    
     
     // logic to bring up todo details by clicking header
+    todoDetails.style.display = "none";
     todoHeader.addEventListener("click", () => { 
       if (todoDetails.style.display === "flex") { 
         todoDetails.style.display = "none";

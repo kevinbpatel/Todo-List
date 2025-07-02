@@ -1,3 +1,7 @@
+import { projects } from "./globals.js";
+import { project } from "./project.js";
+import { todoItem, checkListItem } from "./todo-item.js";
+
 export function storageAvailable(type) {
   let storage;
   try {
@@ -17,16 +21,56 @@ export function storageAvailable(type) {
   }
 }
 
-export const checkStorageEmpty = () => { 
-  // if 
-}
-
 export const storeTodoLocal = (key, value) => { 
   localStorage.setItem(JSON.stringify(key), JSON.stringify(value));
 }
 
-// TODO: fix the keys 
 export const deleteTodoLocal = (key) => { 
   localStorage.removeItem(JSON.stringify(key));
+}
+
+export const retrieveData = () => { 
+  const localStorageItems = { ...localStorage };
+
+  Object.keys(localStorageItems).forEach(item => {
+    let projectName, todoItemName;
+    [projectName, todoItemName] = JSON.parse(item);
+    
+    let projectNames = [];
+    projects.forEach(project => {
+      projectNames.push(project.title);
+    });
+
+    let newProject;
+    // iterate through projects and get the project with projectName
+    for (let i = 0; i < projects.length; i++) { 
+      if (projects[i].title === projectName) { 
+        newProject = projects[i];
+      }
+    }
+    
+    if (newProject === undefined) {
+      newProject = project(projectName);
+      projects.push(newProject);
+    }
+
+    let newTodoItem;
+    let todoItemDetails = JSON.parse(localStorageItems[item])
+
+    if (todoItemDetails.checked !== undefined) { 
+      newTodoItem = checkListItem(todoItemName);
+      newTodoItem.description = todoItemDetails.description;
+      newTodoItem.dueDate = todoItemDetails.dueDate;
+      newTodoItem.priority = todoItemDetails.priority;
+      newTodoItem.checked = todoItemDetails.checked;
+    } else { 
+      newTodoItem = todoItem(todoItemName);
+      newTodoItem.description = todoItemDetails.description;
+      newTodoItem.dueDate = todoItemDetails.dueDate;
+      newTodoItem.priority = todoItemDetails.priority;
+    }
+
+    newProject.addItem(newTodoItem);
+  });
 }
 
