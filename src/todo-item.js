@@ -1,5 +1,5 @@
-import { deleteTodoLocal } from "./local-storage-js";
-import { storeTodoLocal } from "./local-storage-js";
+import { deleteTodoLocal } from "./local-storage.js";
+import { storeTodoLocal } from "./local-storage.js";
 import { project } from "./project";
 
 const noteFunctions = (state) => ({

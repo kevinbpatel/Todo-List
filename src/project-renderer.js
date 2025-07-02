@@ -2,6 +2,8 @@ import { editableText, textBox } from "./text-box.js";
 import { project } from "./project.js";
 import { todoItem, checkListItem } from "./todo-item";
 import noteImage from "./images/note.svg"
+import { projects } from "./globals.js";
+import { rerenderProjects } from "./sidebar-renderer.js";
 
 
 const rerenderTodoItems = (project) => { 
@@ -120,14 +122,6 @@ const rerenderTodoItems = (project) => {
     });
     
     todoItem.appendChild(todoDetails);
-
-    // in expand: 
-
-      // add description, dueDate, priority 
-
-      // add delete button     
-
-
     todoContainer.appendChild(todoItem);
   });
 }
@@ -144,8 +138,8 @@ export const displayProject = (project) => {
   projectTitle.setAttribute("id", "project-title");
   mainContainer.appendChild(projectTitle);
   projectTitle.addEventListener("input", () => {
-    // if project edited, delete all its todo's from storage (under the old 
-    // name) and add all the todo's back under the new name
+    // if project title edited, delete all its todo's from storage (under the
+    // old name) and add all the todo's back under the new name
     project.items.forEach(item => {
       item.deleteNote(project.title);
     });
@@ -153,6 +147,7 @@ export const displayProject = (project) => {
     project.items.forEach(item => { 
       item.storeNote(project.title);
     });
+    rerenderProjects();
   });
 
   const todoContainer = document.createElement("div");
@@ -178,12 +173,16 @@ export const displayProject = (project) => {
 
       // if person creates a checkbox 
       let newTitle = "";
+      let newTodoItem;
       if (addTodoInput.value.startsWith("[]")) { // extract input
         newTitle = addTodoInput.value.split("[]")[1];
-        project.addItem(checkListItem(newTitle));
+        newTodoItem = checkListItem(newTitle);
       } else { 
-        project.addItem(todoItem(addTodoInput.value));
+        newTodoItem = todoItem(addTodoInput.value);        
       }
+
+      project.addItem(newTodoItem);
+      newTodoItem.storeNote(project.title);
       
       rerenderTodoItems(project);
       addTodoInput.value = "";
