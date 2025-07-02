@@ -1,8 +1,8 @@
-# Webpack Template
+# Todo List
 
-This repository contains the basic webpack template as done in the Odin Project.
-
-Below are the specific links to the resources followed:
-- [JavaScript Course: Webpack](https://www.theodinproject.com/lessons/javascript-webpack)
-- [JavaScript Course: Revisiting Webpack](https://www.theodinproject.com/lessons/node-path-javascript-revisiting-webpack)
-- [Webpack’s “Production” guide](https://webpack.js.org/guides/production/)
+In this project I will:
+- Demonstrate my ability to create a full stack project from scratch 
+- Understand and use webpack
+- Use javascript modules 
+- Separate app logic from rendering logic  
+- Use Web Storage API
