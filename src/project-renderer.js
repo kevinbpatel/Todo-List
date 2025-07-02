@@ -17,8 +17,6 @@ const rerenderTodoItems = (project) => {
     const todoHeader = document.createElement("div");
     todoHeader.setAttribute("class", "todo-header");
     
-    
-  
     // if item is a checkBox
     if (item.checked !== undefined) { // add checkbox input element
       const todoCheckBox= document.createElement("input");
@@ -33,7 +31,7 @@ const rerenderTodoItems = (project) => {
         } else { 
           item.checked = false;
         }
-
+        item.storeNote(project.title);
       });
 
     } else { // otherwise add regular "-"
@@ -47,13 +45,11 @@ const rerenderTodoItems = (project) => {
     todoTitle.setAttribute("id", "todo-title");
     todoHeader.appendChild(todoTitle);
     todoTitle.addEventListener("input", () => {
+      item.deleteNote(project.title);
       item.title = todoTitle.value;
+      item.storeNote(project.title);
     });
 
-    
-    
-
-    
     todoHeader.setAttribute("class", "todo-header");
     todoItem.appendChild(todoHeader);
 
@@ -71,6 +67,7 @@ const rerenderTodoItems = (project) => {
     todoDetails.appendChild(todoDescription);
     todoDescription.addEventListener("input", () => {
       item.description = todoDescription.value;
+      item.storeNote(project.title);
     });
 
     // date element 
@@ -85,6 +82,7 @@ const rerenderTodoItems = (project) => {
     todoDetails.appendChild(todoDueDate);
     todoDueDate.addEventListener("input", () => {
       item.dueDate = todoDueDate.value;
+      item.storeNote(project.title);
     });
 
     // priority element 
@@ -107,12 +105,13 @@ const rerenderTodoItems = (project) => {
     todoDetails.appendChild(priority);
     priority.addEventListener("input", () => {
       item.priority = priority.value;
+      item.storeNote(project.title);
     });
 
     todoDetails.style.display = "none";
     
+    // logic to bring up todo details by clicking header
     todoHeader.addEventListener("click", () => { 
-
       if (todoDetails.style.display === "flex") { 
         todoDetails.style.display = "none";
       } else if (todoDetails.style.display === "none") { 
@@ -145,7 +144,15 @@ export const displayProject = (project) => {
   projectTitle.setAttribute("id", "project-title");
   mainContainer.appendChild(projectTitle);
   projectTitle.addEventListener("input", () => {
-      project.title = projectTitle.value;
+    // if project edited, delete all its todo's from storage (under the old 
+    // name) and add all the todo's back under the new name
+    project.items.forEach(item => {
+      item.deleteNote(project.title);
+    });
+    project.title = projectTitle.value;
+    project.items.forEach(item => { 
+      item.storeNote(project.title);
+    });
   });
 
   const todoContainer = document.createElement("div");
@@ -170,17 +177,13 @@ export const displayProject = (project) => {
       event.preventDefault();
 
       // if person creates a checkbox 
-
       let newTitle = "";
-      if (addTodoInput.value.startsWith("[]")) { 
+      if (addTodoInput.value.startsWith("[]")) { // extract input
         newTitle = addTodoInput.value.split("[]")[1];
-
         project.addItem(checkListItem(newTitle));
-
       } else { 
         project.addItem(todoItem(addTodoInput.value));
       }
-
       
       rerenderTodoItems(project);
       addTodoInput.value = "";

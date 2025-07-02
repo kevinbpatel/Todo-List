@@ -9,14 +9,13 @@ import { storageAvailable } from "./local-storage-js";
 const projects = [];
 
 // sample data
-projects.push(project("new project"));
-projects[0].addItem(todoItem("first item"));
-projects[0].addItem(todoItem("second item"));
-projects[0].addItem(todoItem("third item"));
-projects[0].items[0].description = "default description in index.js";
-projects[0].items[0].dueDate = "2002-10-06";
-
-
+// projects.push(project("new project"));
+// projects[0].addItem(todoItem("first item"));
+// projects[0].addItem(todoItem("second item"));
+// projects[0].addItem(todoItem("third item"));
+// projects[0].items[0].description = "default description in index.js";
+// projects[0].items[0].dueDate = "2002-10-06";
+ 
 // display all projects
 const rerenderProjects = () => { 
   const sidebar = document.querySelector("#sidebar-projects");
@@ -47,10 +46,50 @@ addProjectButton.addEventListener("click", () => {
   rerenderProjects();
 });
 
-rerenderProjects();
+export const retrieveData = () => { 
+  const localStorageItems = { ...localStorage };
 
-// if (storageAvailable("localStorage")) {
-//   alert("working");
-// } else {
-//   alert("not working");
-// }
+  Object.keys(localStorageItems).forEach(item => {
+    let projectName, todoItemName;
+    [projectName, todoItemName] = JSON.parse(item);
+    
+    let projectNames = [];
+    projects.forEach(project => {
+      projectNames.push(project.title);
+    });
+
+    let newProject;
+    // iterate through projects and get the project with projectName
+    for (let i = 0; i < projects.length; i++) { 
+      if (projects[i].title === projectName) { 
+        newProject = projects[i];
+      }
+    }
+    
+    if (newProject === undefined) {
+      newProject = project(projectName);
+      projects.push(newProject);
+    }
+
+    let newTodoItem;
+    let todoItemDetails = JSON.parse(localStorageItems[item])
+
+    if (todoItemDetails.checked !== undefined) { 
+      newTodoItem = checkListItem(todoItemName);
+      newTodoItem.description = todoItemDetails.description;
+      newTodoItem.dueDate = todoItemDetails.dueDate;
+      newTodoItem.priority = todoItemDetails.priority;
+      newTodoItem.checked = todoItemDetails.checked;
+    } else { 
+      newTodoItem = todoItem(todoItemName);
+      newTodoItem.description = todoItemDetails.description;
+      newTodoItem.dueDate = todoItemDetails.dueDate;
+      newTodoItem.priority = todoItemDetails.priority;
+    }
+
+    newProject.addItem(newTodoItem);
+  });
+}
+
+retrieveData();
+rerenderProjects();
