@@ -19,5 +19,7 @@ addProjectButton.addEventListener("click", () => {
 });
 
 
+// create default project
+projects.push(project("Default"));
 retrieveData();
 rerenderProjects();
